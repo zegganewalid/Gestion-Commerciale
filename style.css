@@ -784,4 +784,37 @@ canvas {
     .product-cols {
         flex-direction: column;
     }
+
+    /* Footer avec copyright */
+.footer {
+    margin-top: 30px;
+    padding: 15px;
+    text-align: center;
+    background-color: var(--primary-light);
+    border-top: 1px solid var(--border-color);
+    border-radius: 0 0 10px 10px;
+}
+
+.copyright {
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.author {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* Version avec logo */
+.footer-with-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-logo {
+    width: 30px;
+    height: 30px;
+}
 }
