@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Compte d'Exploitation & Seuil de Rentabilité</h1>
+        <h1>Analyse de Gestion Commerciale</h1>
         
         <div class="tabs">
             <button class="tab-btn active" data-tab="exploitation">Compte d'Exploitation</button>
@@ -19,32 +19,30 @@
         
         <div class="tab-content active" id="exploitation">
             <h2>Compte d'Exploitation</h2>
+            
+            <!-- Nouvelle section pour la gestion des produits -->
+            <div class="products-management">
+                <h3>Gestion des produits</h3>
+                <div id="products-list">
+                    <!-- Les produits seront ajoutés ici dynamiquement -->
+                </div>
+                <button id="add-product" class="btn accent-btn">+ Ajouter un produit</button>
+            </div>
+            
             <div class="input-section">
                 <div class="input-group">
-                    <h3>Données de base</h3>
-                    <div class="input-row">
-                        <label for="ca">Chiffre d'affaires (CA) :</label>
-                        <input type="number" id="ca" placeholder="Ex: 100000" value="100000">
-                    </div>
-                    <div class="input-row">
-                        <label for="cv">Charges variables (CV) :</label>
-                        <input type="number" id="cv" placeholder="Ex: 60000" value="60000">
-                    </div>
-                    <div class="input-row">
-                        <label for="cf">Coûts fixes (CF) :</label>
-                        <input type="number" id="cf" placeholder="Ex: 30000" value="30000">
-                    </div>
-                    <div class="input-row">
-                        <label for="pvu">Prix de vente unitaire (PVU) :</label>
-                        <input type="number" id="pvu" placeholder="Ex: 100" value="100">
-                    </div>
-                    <div class="input-row">
-                        <label for="quantite">Quantité vendue :</label>
-                        <input type="number" id="quantite" placeholder="Ex: 1000" value="1000">
-                    </div>
+                    <h3>Données communes</h3>
                     <div class="input-row">
                         <label for="taux-tva">Taux de TVA (%) :</label>
                         <input type="number" id="taux-tva" placeholder="Ex: 20" value="20">
+                    </div>
+                    <div class="input-row">
+                        <label for="charges-fixes-dir">Charges fixes directes (période) :</label>
+                        <input type="number" id="charges-fixes-dir" placeholder="Ex: 500" value="500">
+                    </div>
+                    <div class="input-row">
+                        <label for="charges-fixes-gen">Charges fixes générales (période) :</label>
+                        <input type="number" id="charges-fixes-gen" placeholder="Ex: 12000" value="12000">
                     </div>
                     <div class="input-row">
                         <button id="calculer-ce" class="btn">Calculer</button>
@@ -58,33 +56,92 @@
                             <th>Compte d'exploitation</th>
                             <th>Montant</th>
                             <th>%</th>
+                            <th>% Cumul</th>
                         </tr>
                         <tr>
-                            <td>Chiffre d'affaires (net)</td>
+                            <td>Chiffre d'affaires HT</td>
                             <td id="ca-resultat">-</td>
+                            <td>100%</td>
                             <td>100%</td>
                         </tr>
                         <tr>
-                            <td>- Charges variables</td>
+                            <td>- Prix d'achat HT</td>
+                            <td id="pa-resultat">-</td>
+                            <td id="pa-pourcentage">-</td>
+                            <td id="pa-cumul">-</td>
+                        </tr>
+                        <tr>
+                            <td>- Charges variables (hors achat)</td>
                             <td id="cv-resultat">-</td>
                             <td id="cv-pourcentage">-</td>
+                            <td id="cv-cumul">-</td>
                         </tr>
                         <tr class="highlight">
                             <td>= Marge sur coûts variables</td>
                             <td id="mscv-resultat">-</td>
                             <td id="mscv-pourcentage">-</td>
+                            <td id="mscv-cumul">-</td>
                         </tr>
                         <tr>
-                            <td>- Coûts fixes</td>
-                            <td id="cf-resultat">-</td>
-                            <td id="cf-pourcentage">-</td>
+                            <td>- Charges fixes directes</td>
+                            <td id="cfd-resultat">-</td>
+                            <td id="cfd-pourcentage">-</td>
+                            <td id="cfd-cumul">-</td>
+                        </tr>
+                        <tr class="highlight">
+                            <td>= Marge sur coûts directs</td>
+                            <td id="mcd-resultat">-</td>
+                            <td id="mcd-pourcentage">-</td>
+                            <td id="mcd-cumul">-</td>
+                        </tr>
+                        <tr>
+                            <td>- Charges fixes générales</td>
+                            <td id="cfg-resultat">-</td>
+                            <td id="cfg-pourcentage">-</td>
+                            <td id="cfg-cumul">-</td>
                         </tr>
                         <tr class="highlight">
                             <td>= Résultat</td>
                             <td id="resultat">-</td>
                             <td id="resultat-pourcentage">-</td>
+                            <td id="resultat-cumul">-</td>
                         </tr>
                     </table>
+                </div>
+            </div>
+            
+            <!-- Section indicateurs de rentabilité -->
+            <div class="indicators-section">
+                <h3>Indicateurs de rentabilité</h3>
+                <div class="indicators-grid">
+                    <div class="indicator-box">
+                        <span class="indicator-label">Taux de marge :</span>
+                        <span class="indicator-value" id="taux-marge">-</span>
+                    </div>
+                    <div class="indicator-box">
+                        <span class="indicator-label">Taux de marque :</span>
+                        <span class="indicator-value" id="taux-marque">-</span>
+                    </div>
+                    <div class="indicator-box">
+                        <span class="indicator-label">Coefficient multiplicateur :</span>
+                        <span class="indicator-value" id="coef-multi">-</span>
+                    </div>
+                    <div class="indicator-box">
+                        <span class="indicator-label">Marge sur CV (%) :</span>
+                        <span class="indicator-value" id="marge-cv-pct">-</span>
+                    </div>
+                    <div class="indicator-box">
+                        <span class="indicator-label">Seuil de rentabilité (SR) :</span>
+                        <span class="indicator-value" id="sr-value">-</span>
+                    </div>
+                    <div class="indicator-box">
+                        <span class="indicator-label">Point mort (jours) :</span>
+                        <span class="indicator-value" id="point-mort-value">-</span>
+                    </div>
+                    <div class="indicator-box">
+                        <span class="indicator-label">Quantité au SR :</span>
+                        <span class="indicator-value" id="qte-sr">-</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -143,6 +200,52 @@
                             </button>
                         </div>
                     </div>
+                    
+                    <!-- Tableau de données pour le graphique -->
+                    <div class="sr-data-table">
+                        <h3>Données pour le graphique</h3>
+                        <div id="sr-table-container" class="table-scroll">
+                            <table id="sr-data-table" class="result-table">
+                                <thead>
+                                    <tr>
+                                        <th>Quantités</th>
+                                        <th>Chiffre d'affaires</th>
+                                        <th>Coûts totaux</th>
+                                        <th>Coûts fixes</th>
+                                        <th>Marge/Perte</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sr-data-body">
+                                    <!-- Les données seront ajoutées ici dynamiquement -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Point exact du SR -->
+                        <div class="sr-exact-point">
+                            <h4>Point exact du seuil de rentabilité</h4>
+                            <table class="result-table">
+                                <thead>
+                                    <tr>
+                                        <th>Quantité au SR</th>
+                                        <th>Chiffre d'affaires</th>
+                                        <th>Coûts totaux</th>
+                                        <th>Coûts fixes</th>
+                                        <th>Marge/Perte</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="sr-exact-qte">-</td>
+                                        <td id="sr-exact-ca">-</td>
+                                        <td id="sr-exact-ct">-</td>
+                                        <td id="sr-exact-cf">-</td>
+                                        <td id="sr-exact-marge">0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -152,6 +255,12 @@
             <div class="input-section">
                 <div class="input-group">
                     <h3>Paramètres de l'élasticité</h3>
+                    <div class="select-product-row">
+                        <label for="elasticite-product">Sélectionner un produit :</label>
+                        <select id="elasticite-product">
+                            <!-- Options générées dynamiquement -->
+                        </select>
+                    </div>
                     <div class="input-row">
                         <label for="variation-prix">Variation de prix (%) :</label>
                         <input type="number" id="variation-prix" placeholder="Ex: -10" value="-10">
@@ -222,7 +331,13 @@
                             <td id="scenario-ca-variation">-</td>
                         </tr>
                         <tr>
-                            <td>- Charges variables</td>
+                            <td>- Prix d'achat HT</td>
+                            <td id="scenario-pa-initial">-</td>
+                            <td id="scenario-pa-modifie">-</td>
+                            <td id="scenario-pa-variation">-</td>
+                        </tr>
+                        <tr>
+                            <td>- Charges variables (hors achat)</td>
                             <td id="scenario-cv-initial">-</td>
                             <td id="scenario-cv-modifie">-</td>
                             <td id="scenario-cv-variation">-</td>
@@ -234,10 +349,22 @@
                             <td id="scenario-mscv-variation">-</td>
                         </tr>
                         <tr>
-                            <td>- Coûts fixes</td>
-                            <td id="scenario-cf-initial">-</td>
-                            <td id="scenario-cf-modifie">-</td>
-                            <td id="scenario-cf-variation">-</td>
+                            <td>- Charges fixes directes</td>
+                            <td id="scenario-cfd-initial">-</td>
+                            <td id="scenario-cfd-modifie">-</td>
+                            <td id="scenario-cfd-variation">-</td>
+                        </tr>
+                        <tr class="highlight">
+                            <td>= Marge sur coûts directs</td>
+                            <td id="scenario-mcd-initial">-</td>
+                            <td id="scenario-mcd-modifie">-</td>
+                            <td id="scenario-mcd-variation">-</td>
+                        </tr>
+                        <tr>
+                            <td>- Charges fixes générales</td>
+                            <td id="scenario-cfg-initial">-</td>
+                            <td id="scenario-cfg-modifie">-</td>
+                            <td id="scenario-cfg-variation">-</td>
                         </tr>
                         <tr class="highlight">
                             <td>= Résultat</td>
@@ -259,6 +386,51 @@
             </div>
         </div>
     </div>
+    
+    <!-- Template pour un nouveau produit -->
+    <template id="product-template">
+        <div class="product-item" data-id="{id}">
+            <div class="product-header">
+                <h4 class="product-title">Produit {index}</h4>
+                <div class="product-actions">
+                    <button class="delete-product">×</button>
+                </div>
+            </div>
+            <div class="product-body">
+                <div class="input-row">
+                    <label for="product-name-{id}">Produit/Service :</label>
+                    <input type="text" id="product-name-{id}" placeholder="Ex: Box cosmétique" value="{defaultName}">
+                </div>
+                <div class="input-row product-cols">
+                    <div>
+                        <label for="prix-vente-ht-{id}">Prix de vente HT :</label>
+                        <input type="number" id="prix-vente-ht-{id}" placeholder="Ex: 100" value="100">
+                    </div>
+                    <div>
+                        <label for="prix-vente-ttc-{id}">Prix de vente TTC :</label>
+                        <input type="number" id="prix-vente-ttc-{id}" readonly value="120">
+                    </div>
+                </div>
+                <div class="input-row product-cols">
+                    <div>
+                        <label for="prix-achat-ht-{id}">Prix d'achat HT :</label>
+                        <input type="number" id="prix-achat-ht-{id}" placeholder="Ex: 60" value="60">
+                    </div>
+                    <div>
+                        <label for="quantite-{id}">Quantités vendues :</label>
+                        <input type="number" id="quantite-{id}" placeholder="Ex: 500" value="500">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <label for="charges-var-{id}">Charges variables unitaires (hors achat) :</label>
+                    <input type="number" id="charges-var-{id}" placeholder="Ex: 10" value="10">
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <!-- Conteneur pour les messages de statut -->
+    <div id="statut-container" class="statut-container"></div>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
