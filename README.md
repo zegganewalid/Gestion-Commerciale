@@ -1,6 +1,7 @@
 # Gestion-Commerciale
-# Outil d'analyse de ![Capture d’écran 2025-04-20 110356](https://github.com/user-attachments/assets/e4b62942-402a-4b4a-9294-671304bd1452)
-gestion commerciale
+# Outil d'analyse de gestion commerciale
+
+![Capture d’écran 2025-04-20 110356](https://github.com/user-attachments/assets/e4b62942-402a-4b4a-9294-671304bd1452)
 
 ## Présentation
 Cet outil permet d'analyser facilement la rentabilité de vos produits et l'impact des changements de prix sur vos ventes.
